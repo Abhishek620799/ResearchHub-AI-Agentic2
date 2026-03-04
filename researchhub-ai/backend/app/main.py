@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -7,7 +8,14 @@ from app.routers import auth, papers, chatbot
 
 settings = get_settings()
 
-app = FastAPI(title=settings.PROJECT_NAME)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title=settings.PROJECT_NAME, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,13 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def on_startup():
-    init_db()
-
 app.include_router(auth.router, prefix="/api")
 app.include_router(papers.router, prefix="/api")
 app.include_router(chatbot.router, prefix="/api")
+
 
 @app.get("/healthz")
 def health_check():
