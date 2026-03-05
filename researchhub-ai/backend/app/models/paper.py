@@ -21,4 +21,5 @@ class Paper(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     owner = relationship("User", backref="papers")
-
+    workspace_id = Column(Integer, ForeignKey("workspaces.id"), nullable=True)
+    workspace = relationship("Workspace", back_populates="papers")

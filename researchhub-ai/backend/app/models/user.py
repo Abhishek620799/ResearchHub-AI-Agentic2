@@ -13,4 +13,4 @@ class User(Base):
     full_name = Column(String(255), nullable=True)
     hashed_password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-
+    workspaces = relationship("Workspace", back_populates="owner", cascade="all, delete-orphan")

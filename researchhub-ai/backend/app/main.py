@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import get_settings
 from app.database import init_db
-from app.routers import auth, papers, chatbot
+from app.routers import auth, papers, chatbot, workspaces, arxiv_search
 
 settings = get_settings()
 
@@ -28,6 +28,8 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api")
 app.include_router(papers.router, prefix="/api")
 app.include_router(chatbot.router, prefix="/api")
+app.include_router(workspaces.router, prefix="/api")
+app.include_router(arxiv_search.router, prefix="/api")
 
 
 @app.get("/healthz")
