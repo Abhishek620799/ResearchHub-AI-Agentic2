@@ -18,8 +18,8 @@ class Paper(Base):
     content = Column(Text, nullable=True)
     embedding = Column(JSON, nullable=True)  # stores List[float]
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    workspace_id = Column(Integer, ForeignKey("workspaces.id"), nullable=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     owner = relationship("User", backref="papers")
-    workspace_id = Column(Integer, ForeignKey("workspaces.id"), nullable=True)
     workspace = relationship("Workspace", back_populates="papers")

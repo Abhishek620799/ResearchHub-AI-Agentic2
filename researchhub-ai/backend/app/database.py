@@ -16,7 +16,7 @@ Base = declarative_base()
 
 def init_db() -> None:
     # Import models here so that they are registered with SQLAlchemy metadata
-    from app.models import user, paper  # noqa: F401
+    from app.models import user, paper, workspace, chat_history  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
 
